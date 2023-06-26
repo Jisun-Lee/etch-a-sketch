@@ -1,11 +1,28 @@
-const container = document.querySelector(".container");
+let gridSize = 16;
 
-for (i = 0; i < 16 * 16; i++) {
-  const box = document.createElement("div");
-  box.className = "box";
+const container = document.querySelector('.container');
+const slider = document.getElementById('slider');
+const output = document.getElementById('demo');
+output.innerHTML = slider.value; //default slider value
+
+slider.oninput = function() {
+  let gridSize = slider.value;
+  output.innerHTML = gridSize;
+  
+  for (i = 0; i < gridSize * gridSize; i++) {
+  const box = document.createElement('div');
+  box.className = 'box';
   container.appendChild(box);
   box.innerText = `${i}`;
+  box.addEventListener('mouseover', function() {
+    box.classList.add('shift');
+  })
 }
+}
+
+console.log(slider.value);
+
+
 
 
 

@@ -1,27 +1,34 @@
-let gridSize = 16;
+const DEFAULT_SIZE = 16;
 
 const container = document.querySelector('.container');
 const slider = document.getElementById('slider');
 const output = document.getElementById('demo');
 output.innerHTML = slider.value; //default slider value
 
+window.addEventListener('load', gridDraw(DEFAULT_SIZE));
+
 slider.oninput = function() {
   let gridSize = slider.value;
   output.innerHTML = gridSize;
-  
-  for (i = 0; i < gridSize * gridSize; i++) {
-  const box = document.createElement('div');
-  box.className = 'box';
-  container.appendChild(box);
-  box.innerText = `${i}`;
-  box.addEventListener('mouseover', function() {
-    box.classList.add('shift');
-  })
-}
+  gridDraw(gridSize);
 }
 
-console.log(slider.value);
+function gridDraw(sliderInput) {
+  for (i = 0; i < sliderInput * sliderInput; i++) {
+    const box = document.createElement('div');
+    box.className = 'box';
+    container.appendChild(box);
+    box.innerText = `${i}`; //temp #s div boxes so I can see changes
+    box.addEventListener('mouseover', function() {
+      box.classList.add('shift');
+    })
+  }
+}
 
+//resets grid for resizing
+function resetGrid() {
+
+}
 
 
 

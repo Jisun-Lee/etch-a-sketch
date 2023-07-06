@@ -8,17 +8,19 @@ output.innerHTML = slider.value; //default slider value
 window.addEventListener('load', gridDraw(DEFAULT_SIZE));
 
 slider.oninput = function() {
-  let gridSize = slider.value;
-  output.innerHTML = gridSize;
-  gridDraw(gridSize);
+  output.innerHTML = slider.value;
+  gridDraw(slider.value);
 }
 
 function gridDraw(sliderInput) {
+  container.style.gridTemplateColumns = 
+    `repeat(${sliderInput}, minmax(max-content, auto))`;
+  console.log(sliderInput);
   for (i = 0; i < sliderInput * sliderInput; i++) {
     const box = document.createElement('div');
     box.className = 'box';
     container.appendChild(box);
-    box.innerText = `${i}`; //temp #s div boxes so I can see changes
+    //box.innerText = `${i}`; //temp #s div boxes so I can see changes
     box.addEventListener('mouseover', function() {
       box.classList.add('shift');
     })

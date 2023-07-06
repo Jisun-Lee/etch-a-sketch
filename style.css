@@ -15,14 +15,26 @@ body {
 
 .container {
     box-sizing: content-box;
-    display: flex;
-    flex-wrap: wrap;
-    width: 650px;
-    margin: 0;
-    padding: 0;
+    display: grid;
+    width: 50vh;
+    height: 50vh;
     border: 1px solid black;
 }
+
+.container > div::before {
+    content: "";
+    padding-top: auto;
+    display:  block;
+    /*background-color: red;*/
+}
+
+
+/*.container > div {
+    border: 1px solid black;
+}
+*/
 .box {
+    display: block;
     background-color: white;
     margin: 0;
     padding: 0;

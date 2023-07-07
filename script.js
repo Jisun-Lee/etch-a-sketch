@@ -1,25 +1,27 @@
 const DEFAULT_SIZE = 16;
 
 const container = document.querySelector('.container');
-const slider = document.getElementById('slider');
-const output = document.getElementById('demo');
-output.innerHTML = slider.value; //default slider value
+const input = document.querySelector('input');
+const output = document.querySelector('output');
+output.innerHTML = input.value; //default slider value
 
 window.addEventListener('load', gridDraw(DEFAULT_SIZE));
 
-slider.oninput = function() {
-  output.innerHTML = slider.value;
-  gridDraw(slider.value);
-}
+input.addEventListener('input', function () {
+  output.innerHTML = input.value;
+  clearScreen();
+  gridDraw(input.value);
+  console.log(input.value);
+});
 
-function gridDraw(sliderInput) {
-  container.style.gridTemplateColumns = 
-    `repeat(${sliderInput}, minmax(max-content, auto))`;
-  console.log(sliderInput);
-  for (i = 0; i < sliderInput * sliderInput; i++) {
+function gridDraw(x) {
+  container.style.gridTemplateColumns = `repeat(${x}, 1fr)`;
+  container.style.gridTemplateRows = `repeat(${x}, 1fr)`;
+  console.log(x);
+  for (i = 0; i < x * x; i++) {
     const box = document.createElement('div');
-    box.className = 'box';
     container.appendChild(box);
+    //box.className = `box${i}`;
     //box.innerText = `${i}`; //temp #s div boxes so I can see changes
     box.addEventListener('mouseover', function() {
       box.classList.add('shift');
@@ -28,8 +30,10 @@ function gridDraw(sliderInput) {
 }
 
 //resets grid for resizing
-function resetGrid() {
-
+function clearScreen() {
+  while (container.firstChild) {
+    container.removeChild(container.lastChild);
+  }
 }
 
 

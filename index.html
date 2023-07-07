@@ -11,10 +11,17 @@
     <header class="header">Etch-A-Sketch</header>
     <div class="main">
         <div class="controls">
-            <p>Custom range slider:</p>
-            <input type="range" min="1" max="100" value="16" 
-                id="slider">
-            <p>Value: <span id="demo"></span></p>
+            <div class="slider">
+                <p>Custom range slider:</p>
+                <input type="range" min="1" max="100" value="16" 
+                    id="slider">
+                <p>Value: <span id="demo"></span></p>
+                <button class="eraser">Eraser</button>
+                <button class="clearScreen" onclick="clearScreen()">
+                    Clear Screen
+                </button>
+            </div>
+            
         </div>
         <div class="container"></div>
     </div>

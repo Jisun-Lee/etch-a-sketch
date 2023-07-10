@@ -12,10 +12,15 @@
     <div class="main">
         <div class="container"></div>
         <div class="controls">
-            <input type="range" min="1" max="100" value="16">
+            <input class="grid-slider" type="range" min="1" max="100" value="16">
             <output></output>
-            <button class="eraser">Eraser</button>
-            <button class="clearScreen" onclick="clearScreen()">
+            <div class="btn-container">
+                <label class="switch btn-color-mode-switch">
+                    <input type="checkbox" name="color_mode" id="color_mode" value="1">
+                    <label for="color_mode" data-on="Erase" data-off="Draw" class="btn-color-mode-switch-inner"></label>
+                </label>
+        </div>
+            <button class="clear-screen" onclick="clearScreen()">
                 Clear Screen
             </button>
         </div>

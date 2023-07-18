@@ -15,7 +15,6 @@ window.addEventListener('load', gridSetup(DEFAULT_SIZE));
 input.addEventListener('input', function () {
   output.innerHTML = `${input.value} x ${input.value}`;
   clearScreen();
-  gridSetup(input.value);
 });
 
 function gridSetup(x) {

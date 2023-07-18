@@ -47,8 +47,18 @@ body {
     border: 0;
   }
 
-.shift {
+/* COLOR MODES */
+
+.black {
     background-color: black;
+}
+
+.erase {
+    background-color: white;
+}
+
+.red {
+    background-color: red;
 }
 
 /* SLIDER STYLES */

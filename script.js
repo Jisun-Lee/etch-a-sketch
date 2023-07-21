@@ -42,9 +42,35 @@ function gridSetup(x) {
 function draw(color) {
   color = currentColor;
   const gridElements = document.querySelectorAll('.box');
+
   gridElements.forEach((e) => {
+    
     e.addEventListener('mouseover', () => {
-      e.style.backgroundColor = `${color}`;
+
+      if (color =='grayscale') {
+        const rgbGrays = getGray(10); //array of RGB grayscale values
+        const classListArr = Array.from(e.classList);
+        const grayLevel = classListArr.map(Number); //number array of current class values
+        let highestValue = 0;
+
+        for (i = 0; i < grayLevel.length; i++) {
+          if (isNaN(grayLevel[i])) {
+            highestValue = 0;
+          } else if (grayLevel[i] > highestValue) {
+            highestValue = grayLevel[i];
+          } 
+        }
+        
+        if (highestValue <= (10-1)) {
+          e.classList.add(`${highestValue + 1}`);
+          e.style.backgroundColor = rgbGrays[(highestValue+1)];
+        }
+
+      } else if (color == 'rainbow') {
+        //set background color to randomly generated RGB color
+      } else {
+        e.style.backgroundColor = `${color}`;
+      }
     })
   })
 }
@@ -53,13 +79,10 @@ function colorSelection() {
   const buttons = document.querySelectorAll('.button');
   buttons.forEach((e) => {
     e.addEventListener('click', () => {
-      if (e.value == 'grayscale') {
-        return;
-      } else {
       currentColor = `${e.value}`;
       draw(currentColor);
-      }
-    })
+      console.log(currentColor);
+      })
   })
 }
 
@@ -73,4 +96,18 @@ function clearScreen() {
     currentColor = DEFAULT_COLOR;
   } 
   draw(currentColor);
+}
+
+function getGray(numShades) {
+  const shades = [];
+  let increment = (255/(numShades));
+
+  for (i = 0; i < numShades; i++) {
+    let intensity = i * increment;
+    let grayValue = `rgb(${intensity}, ${intensity}, ${intensity})`;
+    shades.push(grayValue);
+  }
+  console.log(shades);
+  shades.reverse();
+  return shades;
 }

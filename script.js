@@ -46,13 +46,12 @@ function draw(color) {
   gridElements.forEach((e) => {
     
     e.addEventListener('mouseover', () => {
+      const rgbGrays = getGray(10); //array of RGB grayscale values
+      const classListArr = Array.from(e.classList);
+      const grayLevel = classListArr.map(Number); //number array of current class values
+      let highestValue = 0;
 
       if (color =='grayscale') {
-        const rgbGrays = getGray(10); //array of RGB grayscale values
-        const classListArr = Array.from(e.classList);
-        const grayLevel = classListArr.map(Number); //number array of current class values
-        let highestValue = 0;
-
         for (i = 0; i < grayLevel.length; i++) {
           if (isNaN(grayLevel[i])) {
             highestValue = 0;
@@ -60,12 +59,10 @@ function draw(color) {
             highestValue = grayLevel[i];
           } 
         }
-        
         if (highestValue <= (10-1)) {
           e.classList.add(`${highestValue + 1}`);
           e.style.backgroundColor = rgbGrays[(highestValue+1)];
         }
-
       } else if (color == 'rainbow') {
         //set background color to randomly generated RGB color
       } else {
@@ -107,7 +104,6 @@ function getGray(numShades) {
     let grayValue = `rgb(${intensity}, ${intensity}, ${intensity})`;
     shades.push(grayValue);
   }
-  console.log(shades);
   shades.reverse();
   return shades;
 }

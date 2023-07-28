@@ -34,8 +34,8 @@ body {
 .container {
     box-sizing: content-box;
     display: grid;
-    width: 75vh;
-    height: 75vh;
+    width: 50vw;
+    height: 50vw;
     border: 1px solid black;
 }
 

@@ -1,7 +1,7 @@
 const DEFAULT_SIZE = 16;
 const DEFAULT_COLOR = 'black';
 
-let currentColor = DEFAULT_COLOR;
+let newColor = DEFAULT_COLOR;
 
 const container = document.querySelector('.container');
 const input = document.querySelector('input');
@@ -22,13 +22,19 @@ window.addEventListener('load', () => {
 });
 
 //clears and draws new grid every time slider is moved
+//checks for any button clicks first for newColor --
+//default newColor will be black, otherwise uses whatever is 
+//stored in newColor variable by colorSelection()
 input.addEventListener('input', function () {
   output.innerHTML = `${input.value} x ${input.value}`;
   clearScreen();
   colorSelection();
-  draw(currentColor);
+  draw(newColor);
 });
 
+//each loop creates a single div box, class="box", appends to .container
+//repeats for x*x times
+//arranges grid in a square to fit container div
 function gridSetup(x) {
   for (let i = 0; i < x * x; i++) {
     const box = document.createElement('div');
@@ -39,46 +45,50 @@ function gridSetup(x) {
   container.style.gridTemplateRows = `repeat(${x}, 1fr)`;
 }
 
-function draw(color) {
-  color = currentColor;
+//uses forEach to iterate over each grid box to listen for mouseover
+//depending on the newColor selection, will implement different code
+function draw() {
   const gridElements = document.querySelectorAll('.box');
 
   gridElements.forEach((e) => {
     
     e.addEventListener('mouseover', () => {
-      const rgbGrays = getGray(10); //array of RGB grayscale values
-      const classListArr = Array.from(e.classList);
-      const grayLevel = classListArr.map(Number); //number array of current class values
-      let highestValue = 0;
 
-      if (color =='grayscale') {
-        for (i = 0; i < grayLevel.length; i++) {
-          if (isNaN(grayLevel[i])) {
-            highestValue = 0;
-          } else if (grayLevel[i] > highestValue) {
-            highestValue = grayLevel[i];
-          } 
-        }
-        if (highestValue <= (10-1)) {
-          e.classList.add(`${highestValue + 1}`);
-          e.style.backgroundColor = rgbGrays[(highestValue+1)];
-        }
-      } else if (color == 'rainbow') {
-        //set background color to randomly generated RGB color
-      } else {
-        e.style.backgroundColor = `${color}`;
+      const checkClass = Array.from(e.classList);
+      const numericalClassArr = checkClass.map(Number);
+
+
+      switch (newColor) {
+
+        case 'grayscale':
+          const grayRGBValues = getGrayArr();
+          const newGray = getGray(numericalClassArr);
+          e.classList.add(`${newGray+1}`);
+          e.style.backgroundColor = grayRGBValues[(newGray)];
+          break;
+        case 'rainbow':
+          console.log(getRainbow());
+          e.style.backgroundColor = `${getRainbow()}`;
+          break;
+        case 'erase':
+          do {
+            e.classList.remove(e.classList.item(1));
+          } while (e.classList.length > 1);
+
+          e.style.backgroundColor = 'white';
+        default:
+          e.style.backgroundColor = `${newColor}`;
       }
-    })
-  })
+    });
+  });
 }
 
 function colorSelection() {
   const buttons = document.querySelectorAll('.button');
   buttons.forEach((e) => {
     e.addEventListener('click', () => {
-      currentColor = `${e.value}`;
-      draw(currentColor);
-      console.log(currentColor);
+      newColor = `${e.value}`;-
+      console.log(newColor);
       })
   })
 }
@@ -87,23 +97,46 @@ function clearScreen() {
   while (container.firstChild) {
     container.removeChild(container.lastChild);
   }
-  gridSetup(input.value);
-  console.log(currentColor);
-  if (currentColor === 'white') {
-    currentColor = DEFAULT_COLOR;
+  if (newColor === 'white') {
+    newColor = DEFAULT_COLOR;
   } 
-  draw(currentColor);
+  draw(newColor);  
+  gridSetup(input.value);
 }
 
-function getGray(numShades) {
+function getGrayArr(numShades = 10) {
   const shades = [];
-  let increment = (255/(numShades));
+  let increment = (255/(numShades+1));
 
-  for (i = 0; i < numShades; i++) {
+  for (i = 1; i <= numShades; i++) {
     let intensity = i * increment;
-    let grayValue = `rgb(${intensity}, ${intensity}, ${intensity})`;
-    shades.push(grayValue);
+    let grayValueArr = `rgb(${intensity}, ${intensity}, ${intensity})`;
+    shades.push(grayValueArr);
   }
-  shades.reverse();
-  return shades;
+  return shades.reverse();
+}
+
+function getGray(oldGrays, highestValue = 0) {
+  for (i = 0; i < oldGrays.length; i++) {
+    if (isNaN(oldGrays[i])) {
+      continue;
+    } else if (highestValue == 9) {
+      break;
+    } else if (oldGrays[i] >= highestValue) {
+      highestValue = i;
+    } 
+  }
+  return highestValue;
+}
+
+function getRainbow() {
+  randomRGB = () => Math.floor(Math.random() * 255);
+  
+  let red = randomRGB();
+  let green = randomRGB();
+  let blue = randomRGB();
+
+  randomColor = `rgb(${red}, ${green}, ${blue})`
+
+  return randomColor;
 }
